@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:mechanism.properties"/>
+
+    <bean id="electricalMechanism" class="ru.second.ElectricalMechanism">
+        <constructor-arg value="${mechanism.voltage}"/>
+        <property name="power" value="${electrical.power}"/>
+    </bean>
+
+    <bean id="mechanicalMechanism" class="ru.second.MechanicalMechanism">
+        <constructor-arg value="${mechanism.type}"/>
+        <property name="power" value="${mechanism.power}"/>
+    </bean>
+
+
+
+    <bean id="machine" class="ru.second.Machine">
+        <constructor-arg ref="electricalMechanism"/>
+    </bean>
+</beans>
