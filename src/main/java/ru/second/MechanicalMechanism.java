@@ -1,38 +1,50 @@
 package ru.second;
+import org.springframework.beans.factory.annotation.Value;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * Класс MechanicalMechanism реализует интерфейс Mechanism для механических механизмов.
  * Он содержит тип и мощность механизма и определяет его работу.
  */
 public class MechanicalMechanism implements Mechanism {
-    private final String type;
+    private String type;
     private String power;
 
-    //Конструктор класса MechanicalMechanism.
-    public MechanicalMechanism(String type) {
+    // Внедрение типа через setter
+    @Value("${mechanical.type}")
+    public void setType(String type) {
         this.type = type;
     }
 
-    // Setter для мощности
+    // Внедрение мощности через setter
+    @Value("${mechanical.power}")
     public void setPower(String power) {
         this.power = power;
     }
 
-    //Возвращает тип механического  механизма.
     @Override
+    public String operate() {
+        return "Mechanical mechanism of type: " + type + " with power: " + power;
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("MechanicalMechanism is being initialized.");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("MechanicalMechanism is being destroyed.");
+    }
+
+    // Методы для вывода значений
     public String getType() {
         return type;
     }
 
-    //Возвращает мощность механического механизма.
-    @Override
     public String getPower() {
         return power;
-    }
-
-    //Операция, выполняемая механическим механизмом.
-    @Override
-    public String operate() {
-        return "Mechanical mechanism of type: " + type + " with power: " + power;
     }
 }
